@@ -6,11 +6,11 @@
 /*   By: hdelacou <hdelacou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 20:03:36 by hdelacou          #+#    #+#             */
-/*   Updated: 2025/01/17 20:04:06 by hdelacou         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:49:16 by hdelacou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosophers.h"
+#include "philosophers.h"
 
 int	write_error(char *str)
 {
@@ -39,8 +39,8 @@ void	action_print(t_rules *rules, int id, char *string)
 	pthread_mutex_lock(&(rules->writing));
 	if (!(rules->dieded))
 	{
-		printf("%lli ", timestamp() - rules->first_timestamp);
-		printf("%i ", id + 1);
+		printf(RESET BOLD "%5lli ", timestamp() - rules->first_timestamp);
+		printf("%3i " RESET, id + 1);
 		printf("%s\n", string);
 	}
 	pthread_mutex_unlock(&(rules->writing));

@@ -6,23 +6,17 @@
 /*   By: hdelacou <hdelacou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 22:25:36 by hdelacou          #+#    #+#             */
-/*   Updated: 2025/01/17 20:04:59 by hdelacou         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:58:20 by hdelacou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <fcntl.h>
 #include <pthread.h>
-#include <semaphore.h>
-#include <signal.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/stat.h>
 #include <sys/time.h>
-#include <sys/wait.h>
 #include <unistd.h>
+// Philosophers with threads and mutexes
 
 #define BOLD	"\e[1m"
 #define RESET	"\e[0m"
@@ -43,8 +37,7 @@ struct	s_philosopher;
  * - @right_fork_id: 	Id of the right fork.
  * - @t_last_meal: 		Timestamp of the last meal.
  * - @rules: 			Pointer to the simulation rules.
- * - @death_check: 		Thread id for the death check.
- * - @proc_id: 			Process id of the forked process.
+ * - @thread_id: 		Thread id for the philosopher.
  */
 typedef struct s_philosopher
 {
@@ -54,46 +47,44 @@ typedef struct s_philosopher
 	int				right_fork_id;
 	long long		t_last_meal;
 	struct s_rules	*rules;
-	pthread_t		death_check;
-	pid_t			proc_id;
+	pthread_t		thread_id;
 }					t_philosopher;
 
 /**
  * @brief Simulation rules.
- * - @nb_philo: 		Number of philosophers.
- * - @time_death: 		Time in ms before a philosopher dies.
- * - @time_eat: 		Time in ms a philosopher eats.
- * - @time_sleep: 		Time in ms a philosopher sleeps.
- * - @nb_eat: 			-1 for infinite, else times to eat.
- * - @dieded: 			Boolean if a philosopher has died.
- * - @first_timestamp: 	Start timestamp of the simulation.
- * - @meal_check: 		Semaphore for meal check.
- * - @forks: 			Semaphore for forks.
- * - @writing: 			Semaphore for writing to stdout.
- * - @philosophers: 	Array of philosophers.
+ * - @nb_philo:         Number of philosophers.
+ * - @time_death:       Time in ms before a philosopher dies.
+ * - @time_eat:         Time in ms a philosopher eats.
+ * - @time_sleep:       Time in ms a philosopher sleeps.
+ * - @nb_eat:           -1 for infinite, else times to eat.
+ * - @dieded:           Boolean if a philosopher has died.
+ * - @first_timestamp:  Start timestamp of the simulation.
+ * - @meal_check:       Semaphore for meal check.
+ * - @forks:            Array of semaphores for forks.
+ * - @writing:          Semaphore for writing to stdout.
+ * - @philosophers:     Array of philosophers.
  */
 typedef struct s_rules
 {
-	int				nb_philo;
-	int				time_death;
-	int				time_eat;
-	int				time_sleep;
-	int				nb_eat;
-	int				dieded;
-	long long		first_timestamp;
-	sem_t			*meal_check;
-	sem_t			*forks;
-	sem_t			*writing;
-	t_philosopher	philosophers[250];
+	int					nb_philo;
+	int					time_death;
+	int					time_eat;
+	int					time_sleep;
+	int					nb_eat;
+	int					dieded;
+	int					all_ate;
+	long long			first_timestamp;
+	pthread_mutex_t		meal_check;
+	pthread_mutex_t		forks[250];
+	pthread_mutex_t		writing;
+	t_philosopher		philosophers[250];
 }					t_rules;
 
 //		src/main.c
 int			main(int argc, char **argv);
 int			init_philosophers(t_rules *rules);
 int			init_all(t_rules *rules, char **argv);
-
 int			init_mutex(t_rules *rules);
-int			init_semaphore(t_rules *rules);
 
 //		src/message.c
 int			write_error(char *str);
@@ -102,9 +93,9 @@ void		action_print(t_rules *rules, int id, char *string);
 
 //		src/philo.c
 void		philo_eats(t_philosopher *philo);
-void		*death_checker(void *void_philosopher);
 void		p_process(void *void_phil);
-void		exit_launcher(t_rules *rules);
+void		exit_launcher(t_rules *rules, t_philosopher *philos);
+void		death_checker(t_rules *r, t_philosopher *p);
 int			launcher(t_rules *rules);
 
 //		src/utils.c

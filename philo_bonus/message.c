@@ -6,11 +6,11 @@
 /*   By: hdelacou <hdelacou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 20:00:47 by hdelacou          #+#    #+#             */
-/*   Updated: 2025/01/17 20:01:12 by hdelacou         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:43:06 by hdelacou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosophers.h"
+#include "philosophers.h"
 
 int	write_error(char *str)
 {

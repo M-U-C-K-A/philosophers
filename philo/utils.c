@@ -6,11 +6,11 @@
 /*   By: hdelacou <hdelacou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 19:50:14 by hdelacou          #+#    #+#             */
-/*   Updated: 2025/01/17 20:04:02 by hdelacou         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:42:57 by hdelacou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosophers.h"
+#include "philosophers.h"
 
 int	ft_atoi(const char *str)
 {

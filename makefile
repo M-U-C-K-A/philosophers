@@ -7,18 +7,20 @@ MAIN_SRC =	philo/main.c \
 			philo/philo.c \
 			philo/utils.c \
 
-BONUS_SRC =	philo_bonus/error.c \
-			philo_bonus/init.c \
-			philo_bonus/launcher.c \
-			philo_bonus/main.c \
+BONUS_SRC =	philo_bonus/main.c \
+			philo_bonus/message.c \
+			philo_bonus/philo.c \
 			philo_bonus/utils.c
 
+GRAY= 		\033[0;30m
 RED= 		\033[1;31m
 GREEN= 		\033[1;32m
-BLUE= 		\033[1;36m
 PINK= 		\033[1;35m
 PURPLE= 	\033[1;34m
-NO_COLOR= 	\033[0m
+BLUE= 		\033[1;36m
+WHITE= 		\033[1;37m
+NO_COLOR= 	\033[1m
+
 
 OBJ = 		$(patsubst %.c, $(OBJ_DIR)/%.o, $(MAIN_SRC))
 BONUS_OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(BONUS_SRC))
@@ -39,6 +41,7 @@ bonus: all $(BONUS_OBJ)
 	@echo "$(GREEN)█▀▀▄ █▀▀█ █▀▀█ █  █ █▀▀   █"
 	@echo "$(GREEN)█▀▀▄ █  █ █  █ █  █ ▀▀█   ▀"
 	@echo "$(GREEN)▀▀▀  ▀▀▀▀ ▀  ▀ ▀▀▀▀ ▀▀▀   ▀"
+	@echo "\n$(GRAY) Philosophers with$(WHITE) processes$(GRAY) and$(WHITE) semaphores"
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $^ -o $@
@@ -54,3 +57,4 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+	@echo "\n$(GRAY) Philosophers with$(WHITE) threads$(GRAY) and$(WHITE) mutexes"

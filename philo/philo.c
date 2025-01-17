@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   launcher.c                                         :+:      :+:    :+:   */
+/*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hdelacou <hdelacou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 19:51:09 by hdelacou          #+#    #+#             */
-/*   Updated: 2025/01/17 19:51:09 by hdelacou         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:50:32 by hdelacou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosophers.h"
+#include "philosophers.h"
 
 void	philo_eats(t_philosopher *philo)
 {
@@ -18,11 +18,11 @@ void	philo_eats(t_philosopher *philo)
 
 	rules = philo->rules;
 	pthread_mutex_lock(&(rules->forks[philo->left_fork_id]));
-	action_print(rules, philo->id, "has taken a fork");
+	action_print(rules, philo->id, FORK);
 	pthread_mutex_lock(&(rules->forks[philo->right_fork_id]));
-	action_print(rules, philo->id, "has taken a fork");
+	action_print(rules, philo->id, FORK);
 	pthread_mutex_lock(&(rules->meal_check));
-	action_print(rules, philo->id, "is eating");
+	action_print(rules, philo->id, EAT);
 	philo->t_last_meal = timestamp();
 	pthread_mutex_unlock(&(rules->meal_check));
 	smart_sleep(rules->time_eat, rules);
@@ -47,9 +47,9 @@ void	*p_thread(void *void_philosopher)
 		philo_eats(philo);
 		if (rules->all_ate)
 			break ;
-		action_print(rules, philo->id, "is sleeping");
+		action_print(rules, philo->id, SLEEP);
 		smart_sleep(rules->time_sleep, rules);
-		action_print(rules, philo->id, "is thinking");
+		action_print(rules, philo->id, THINK);
 		i++;
 	}
 	return (NULL);
@@ -80,7 +80,7 @@ void	death_checker(t_rules *r, t_philosopher *p)
 			pthread_mutex_lock(&(r->meal_check));
 			if ((timestamp() - (p[i].t_last_meal)) > r->time_death)
 			{
-				action_print(r, i, "died");
+				action_print(r, i, DIE);
 				r->dieded = 1;
 			}
 			pthread_mutex_unlock(&(r->meal_check));

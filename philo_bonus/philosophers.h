@@ -6,7 +6,7 @@
 /*   By: hdelacou <hdelacou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 22:25:36 by hdelacou          #+#    #+#             */
-/*   Updated: 2025/01/17 20:04:59 by hdelacou         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:58:55 by hdelacou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include <sys/time.h>
 #include <sys/wait.h>
 #include <unistd.h>
+// Philosophers with processes and semaphores
 
 #define BOLD	"\e[1m"
 #define RESET	"\e[0m"
@@ -91,8 +92,6 @@ typedef struct s_rules
 int			main(int argc, char **argv);
 int			init_philosophers(t_rules *rules);
 int			init_all(t_rules *rules, char **argv);
-
-int			init_mutex(t_rules *rules);
 int			init_semaphore(t_rules *rules);
 
 //		src/message.c

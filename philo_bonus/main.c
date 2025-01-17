@@ -6,11 +6,11 @@
 /*   By: hdelacou <hdelacou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 21:39:40 by hdelacou          #+#    #+#             */
-/*   Updated: 2025/01/17 20:08:15 by hdelacou         ###   ########.fr       */
+/*   Updated: 2025/01/17 20:43:01 by hdelacou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../philosophers.h"
+#include "philosophers.h"
 
 int	main(int argc, char **argv)
 {

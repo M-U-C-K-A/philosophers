@@ -1,0 +1,48 @@
+NAME = 		philo
+OBJ_DIR = 	../objs/philo
+CC = 		gcc
+CFLAGS = 	-Wall -Wextra -Werror -fsanitize=thread -g
+SRC =		init.c \
+			main.c \
+			philo.c \
+			utils.c \
+			message.c
+
+GRAY= 		\033[0;30m
+RED= 		\033[1;31m
+GREEN= 		\033[1;32m
+PINK= 		\033[1;35m
+PURPLE= 	\033[1;34m
+BLUE= 		\033[1;36m
+WHITE= 		\033[1;37m
+NO_COLOR= 	\033[1m
+
+OBJ = 		$(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
+
+all: $(NAME)
+	@echo "\n"
+	@clear
+	@echo "$(PINK)██████╗ ██╗  ██╗██╗██╗      █████╗ $(PURPLE) ██████╗ █████╗ ██████╗ ██╗  ██╗███████╗██████╗  ██████╗"
+	@echo "$(PINK)██╔══██╗██║  ██║██║██║     ██╔══██╗$(PURPLE)██╔════╝██╔══██╗██╔══██╗██║  ██║██╔════╝██╔══██╗██╔════╝"
+	@echo "$(PINK)██████╔╝███████║██║██║     ██║  ██║$(PURPLE)╚█████╗ ██║  ██║██████╔╝███████║█████╗  ██████╔╝╚█████╗ "
+	@echo "$(PINK)██╔═══╝ ██╔══██║██║██║     ██║  ██║$(PURPLE) ╚═══██╗██║  ██║██╔═══╝ ██╔══██║██╔══╝  ██╔══██╗ ╚═══██╗"
+	@echo "$(PINK)██║     ██║  ██║██║███████╗╚█████╔╝$(PURPLE)██████╔╝╚█████╔╝██║     ██║  ██║███████╗██║  ██║██████╔╝"
+	@echo "$(PINK)╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝ ╚════╝ $(PURPLE)╚═════╝  ╚════╝ ╚═╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝ "
+	@echo "Ｉ  ｎｅｖｅｒ  ｔｈｏｕｇｈｔ  ｐｈｉｌｏｓｏｐｈｙ  ｗｏｕｌｄ  ｂｅ  ｓｏ  ｄｅａｄｌｙ\n $(NO_COLOR)"
+	@echo "$(GRAY)Philosophers with$(WHITE) thread$(GRAY) and$(WHITE) mutex"
+
+$(NAME): $(OBJ)
+	@$(CC) $(CFLAGS) $^ -o $@
+
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	@rm -rf $(OBJ_DIR)
+
+fclean: clean
+	@rm -f $(NAME)
+
+re: fclean all
+
